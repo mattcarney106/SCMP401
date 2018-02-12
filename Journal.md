@@ -10,15 +10,15 @@ Met with Professor Skon to discuss data analysis prospects:
 
 Big Ideas:
 
-1. Cost Analysis
- * Missing data (optimistic vs pessimistic)  
- * Pessimistic: Assume every time data is missing, the solar panel is not functioning (gap is not due to network failure)  
- * Determine what people want to see to inform data analytics  
- * Modeling efficiency(?)  
-  * Different ways the efficiency can change  
-   * Corrosion  
-   * Dirt  
-  * Resistance change effect on efficiency  
+1. Cost Analysis  
+  * Missing data (optimistic vs pessimistic)  
+  * Pessimistic: Assume every time data is missing, the solar panel is not functioning (gap is not due to network failure)  
+  * Determine what people want to see to inform data analytics  
+  * Modeling efficiency(?)  
+    * Different ways the efficiency can change  
+      * Corrosion  
+      * Dirt  
+    * Resistance change effect on efficiency  
 
 
 Logistics:
