@@ -2,6 +2,8 @@
 #include <vector>
 #include "solar.h"
 
+using namespace std;
+
 int main()
 {
  helloWorld(); 
