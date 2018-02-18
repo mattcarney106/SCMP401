@@ -49,3 +49,13 @@ The efficiency of a photovoltaic cell is given by
 eta = P_out/P_in = P_max/(E * A_cel)
 
 where P_out is the output power of the solar cell, E is the radiation flux incident on the panel, and A is the area of the cell. Note that this expression assumes ideal conditions and should be used as an upper bound on the efficiency of the cell. If I were to model the efficiency of the Belize solar cells, I could use this as a sort of goal or target efficiency.
+
+## Week of 2-12-08
+
+This week was dedicated to the more computational side of things. Kara will be accessing the database through a c++ file, so the easiest (and most efficient) way for me to take in data from her requests would be to use a cpp file as well. Seeing as I know only Python and C, I anticipate a few hurdles along the way.
+
+After conferring with Kara, the data will most likely be output from the database as a vector. To start, I'd like to start by exploring vectors and their capabilities.
+
+I want to make a plot that can give an estimate to when a solar panel array will pay itself off. I was planning on doing this by having a function that just takes in the name of the site, and then uses the cost of grid electricity per kWh, the power output of the array and calculates how much money has been saved by not having to pay for the power produced by the solar array, and then subtracts that from the initial installation cost.
+
+In order to be efficient with my compilations, I'm going to learn how to use a makefile. This will allow me to compile many different files quickly. I'm going to use the tutorial [here](http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/).
