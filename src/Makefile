@@ -6,11 +6,11 @@ CFLAGS=-I$(IDIR)
 #Defining object directory
 ODIR=obj
 
-#Determines all header files (?)
+#Determines all header files
 _DEPS=solar.h
 DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 
-#Determines list of obj files that will be created (?)
+#Determines list of obj files that will be created
 _OBJ=solar.o
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 

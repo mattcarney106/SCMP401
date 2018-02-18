@@ -65,6 +65,15 @@ To test out the make file, I made a simple hello world program. I have the follo
 * solar.h: contains the declaration for the helloWorld program  
 * solar.cpp: contains the helloWorld function definition and main routine  
 
+Makefiles are made up of "rules", which look like this:
+
+```shell
+target: dependencies
+	system command
+```
+
+The target is the subject of the rule, the dependencies are what is needed for the rule to apply, and the system command is what is executed if the dependencies are met.
+
 I've also organized my files to make the directory a little cleaner. In my main directory, SolarProject, I have a src to house my source code (cpp files, Makefiles, etc), and an include directory to house my header files. Within the src directory, I also have an obj directory which serves as the output for all of the object files created in the compilation process. This means that only the final executable and source files are left. The final file looks like:
 
 
@@ -92,4 +101,54 @@ $(ODIR)/%.o: %.cpp $(DEPS)
 #Makes final executible from all intermediate object files
 solar: $(OBJ)
         $(CC) -o $@ $^ $(CFLAGS)
+```
+
+Let's pick this apart to make sure we know what's going on here:
+
+```shell
+#Defining include directory, compiler, and flags for compiler
+IDIR=../include
+CC=g++
+CFLAGS=-I$(IDIR)
+
+#Defining object directory
+ODIR=obj
 ``` 
+
+The above section defines variables that will go on to tell where the header files are located, what compiler to use when building the scripts, what flags to use for each compile call, and what directory the intermediate object files should be dumped. Here the flags simply indicate to the compiler which directory to search for the header files.
+
+```shell
+#Determines all header files (?)
+_DEPS=solar.h
+DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
+
+#Determines list of obj files that will be created (?)
+_OBJ=solar.o
+OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+```
+
+These lines gave me a little more trouble when I was following the tutorial. The command `patsubst` functions essentially like a find and replace. The third argument is the text to search through, the first is the pattern subject to replacement, and the second is what the pattern will be replaced with. In the first part of this excerpt, we search through the text in the variable `_DEPS`. The other two arguments cause a bit of a headache at first glance, but if we think through it, it's a rather clever technique. Setting the pattern as the wildcard and the replacement as include/% means that the command returns all file names common to the `_DEPS` variable and the include/ directory and then adds the prefix include/ to that value. For example, if `solar.h` was found in both include/ and the `_DEPS` variable, the command would return include/solar.h, which is the correct dependency for the compilation to be made. The second section of the code follows the exact same formula, but for the object files.
+
+
+```shell
+#Compiles all intermediate object files
+$(ODIR)/%.o: %.cpp $(DEPS)
+        $(CC) -c -o $@ $< $(CFLAGS)
+```
+
+This section compiles all of the necessary object files to create the final executable. The target here is all object files in the object directory, the dependencies are all of the corresponding c++ files and header files for each object file. The command preforms the preprocessing, compiling, and assembling phases for each object file. 
+
+A few notes on syntax here:
+
+* `$@` is a placeholder for the lefthand side of the colon (target)  
+* `$<` is the first item in the dependencies list, which is all dependencies here
+
+The final step is to link all object files into one executable:
+
+```shell
+#Makes final executible from all intermediate object files
+solar: $(OBJ)
+        $(CC) -o $@ $^ $(CFLAGS)
+```
+
+This takes all the object files found in the object directory and links them together to make the `solar` executable.
