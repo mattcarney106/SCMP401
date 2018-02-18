@@ -59,3 +59,37 @@ After conferring with Kara, the data will most likely be output from the databas
 I want to make a plot that can give an estimate to when a solar panel array will pay itself off. I was planning on doing this by having a function that just takes in the name of the site, and then uses the cost of grid electricity per kWh, the power output of the array and calculates how much money has been saved by not having to pay for the power produced by the solar array, and then subtracts that from the initial installation cost.
 
 In order to be efficient with my compilations, I'm going to learn how to use a makefile. This will allow me to compile many different files quickly. I'm going to use the tutorial [here](http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/).
+
+To test out the make file, I made a simple hello world program. I have the following files:
+
+* solar.h: contains the declaration for the helloWorld program  
+* solar.cpp: contains the helloWorld function definition and main routine  
+
+I've also organized my files to make the directory a little cleaner. In my main directory, SolarProject, I have a src to house my source code (cpp files, Makefiles, etc), and an include directory to house my header files. Within the src directory, I also have an obj directory which serves as the output for all of the object files created in the compilation process. This means that only the final executable and source files are left. The final file looks like:
+
+
+```shell
+#Defining include directory, compiler, and flags for compiler
+IDIR=../include
+CC=g++
+CFLAGS=-I$(IDIR)
+
+#Defining object directory
+ODIR=obj
+
+#Determines all header files (?)
+_DEPS=solar.h
+DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
+
+#Determines list of obj files that will be created (?)
+_OBJ=solar.o
+OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+
+#Compiles all intermediate object files
+$(ODIR)/%.o: %.cpp $(DEPS)
+        $(CC) -c -o $@ $< $(CFLAGS)
+
+#Makes final executible from all intermediate object files
+solar: $(OBJ)
+        $(CC) -o $@ $^ $(CFLAGS)
+``` 

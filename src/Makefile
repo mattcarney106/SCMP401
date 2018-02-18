@@ -1,3 +1,4 @@
+#Defining include directory, compiler, and flags for compiler
 IDIR=../include
 CC=g++
 CFLAGS=-I$(IDIR)
@@ -13,10 +14,11 @@ DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ=solar.o
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 
+#Compiles all intermediate object files
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS) 
 
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< -I. 
-
+#Makes final executible from all intermediate object files
 solar: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
