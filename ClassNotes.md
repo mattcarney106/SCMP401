@@ -62,3 +62,65 @@ Going forward:
 * Distribution of customers on different days
 * Date may be enough 
  
+ 
+ 
+## 2-19-18
+
+### Kara's update
+
+Background:
+
+ * MySQL subtabling
+ 
+What's been done:
+
+ * Looking at database fields
+ * Methods of access
+
+ 
+Accessing the database:
+
+ * Need to access cs3 kenyon server through cslab server
+ * Adapting old SQL queries to practice (originally written in PHP)
+ * Four relevant fields:
+   * IID - bank ID
+   * QID - Units of response
+   * TimeStamp: Time recorded
+ * Writing C++ program to access database
+   * Problems with data type matching
+
+Next steps:
+
+ * Create summary tables
+   * Site table, bank table
+   * Will speed up querying
+ * Finish up back-end functions
+ * Caching if time permits (?)
+
+Potential issues:
+
+ * Solar data is sharing location with irrelevant information from unrelated project
+ * Incorporating a variety of different languages together
+   * Translating PHP functions to C++
+
+   
+   
+### Sam's update
+
+Demonstration of etherium network:
+
+* Job posting w/ etherium
+* Life lottery etherium lottery
+* CryptoKitties: cats with etherium 
+
+Programming a smart contract:
+
+* Need Geth 
+* Private blockchain (public is expensive)
+* IDE for smart contract programming (Remix)
+* Cost associated with storing information on Etherium network
+* Machine code operations measured in Gas
+
+Project Design:
+
+*
