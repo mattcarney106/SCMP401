@@ -152,3 +152,9 @@ solar: $(OBJ)
 ```
 
 This takes all the object files found in the object directory and links them together to make the `solar` executable.
+
+## Week of 2-19-08
+
+This week was rather slow as I had two large projects due during the week that sucked a lot of my time. Fortunately, this means that next week I'll have significantly more time to execute the ideas I came up with in preparation for my presentation. 
+
+What I did accomplish this week was perfecting my Makefile to be as general as possible to the solar project. This means that I can now add any .cpp or .h files to my source directories and they will be automatically compiled without needing to add a rule for them. Secondly, I've started coming up with some ideas for how to model the efficiency drops after speaking with a fellow physics major who presented on solar cells for her senior exercise. I'm starting to feel like a real developer! Next steps will include creating a prototype efficiency model coded into my software package. Finally, I'll be starting some of the long-term analyses in which I anticipate incorporating downsampling routines to account for the large amount of data.
