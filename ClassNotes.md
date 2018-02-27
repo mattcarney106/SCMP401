@@ -121,6 +121,16 @@ Programming a smart contract:
 * Cost associated with storing information on Etherium network
 * Machine code operations measured in Gas
 
-Project Design:
+## 2-26-18
 
-*
+### Jensen's Update
+
+* Problems with current webpage  
+* Tableau may not work
+
+* Need to strip the website, can't reuse code
+* Use JSON to generate fake data
+
+### Bennet's Update
+
+
