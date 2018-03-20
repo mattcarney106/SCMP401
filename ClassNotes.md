@@ -133,4 +133,47 @@ Programming a smart contract:
 
 ### Bennet's Update
 
+## 3-19-18
 
+### Doni's Update
+
+* Recap: using arduinos and raspberry pis to automate power rack data acquisition
+* Old problems (solved): Rotary encoder too sensitive, arduino Uno can't record fast enough
+* New problems: Due can't take more than 3.3V
+* Added small 4 digit display LED 
+* Communication btw Raspberry Pi and Arduino
+
+Raspberry Pi:
+
+* Wifi capable
+* Trouble with packages
+
+New project pipeline:
+
+* Rackbot -> Arduino (as receiver) -> Raspberry Pi
+
+### Coire's Update
+
+* Gas chromatography
+* separates components of compound in question
+* Use analog-digital converter to Raspberry Pi to digitize
+* Visualize data in real time
+* Email data vs. set up a website
+* Hardware taking longer than expected
+* Code for the future:
+ * Convert A to D  
+ * Perform data integration (?)
+ * Store data on RP
+
+### Tudor's Update
+
+* Problem: Bootstrapping difficult to use w/o statistical experience  
+* Last time: implemented crude version of boostrap
+* 3 types: standard, percentile method, reversing percentiles
+
+### Google article
+
+* Why diff btw products?  
+* How often does this happen?
+* Is this censorship  
+* Why didn't/couldn't google retrain it?
