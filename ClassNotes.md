@@ -177,3 +177,25 @@ New project pipeline:
 * How often does this happen?
 * Is this censorship  
 * Why didn't/couldn't google retrain it?
+
+
+## 3-26-18
+
+### Bennet's Update
+
+* Last time: finished tutorials, wanted to create simple version of simulation, create web interface
+* Current simulation outputs wealth vs time for many trials
+* Parameters: initial wealth, withdraw rate, deposit rate, random shock
+* Problem displaying results of simulation on website
+
+### Kara's Update
+
+* queries for visualization almost done
+* new sites added, formatted query output to xml
+* Two classes: site and sites
+  * site: contains all information for specific site
+  * sites: contains vector of all individual sites
+* What's next: fix redundant database access calls
+* make new function that connects
+
+
