@@ -2,3 +2,4 @@
 
 void helloWorld();
 double CalcBELRate(double powerOutput);
+double get_random_watts(double meanWatthrs, double varianceWatthrs);

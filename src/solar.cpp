@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 #include "solar.h"
 
 using namespace std;
@@ -11,7 +12,13 @@ int main()
 
 void helloWorld()
 {
-  cout << "Hello, world!\n";
+  double meanWatthrs = 100.0;
+  double varianceWatthrs = 10.;
+
+  for(int i=0;i>10;i++)
+  {
+    cout << get_random_watts(meanWatthrs, varianceWatthrs) << endl;
+  }
 }
 
 /* Takes in powerOutput and returns
@@ -33,4 +40,18 @@ double CalcBELRate(double powerOutput)
   return rate;
 }
 
-double 
+double get_random_watts(double meanWatthrs, double varianceWatthrs)
+{
+  double random_watts;
+  //Instantiate random class
+  random_device rd;
+
+  //Random seed generator
+  mt19937 gen(rd());
+
+  //Instantiate normal distribution
+  normal_distribution<double> d(double meanWatthrs, double varianceWatthrs);
+  random_watts = d(gen);
+
+  return random_watts;
+}
