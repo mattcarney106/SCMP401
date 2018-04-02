@@ -7,17 +7,18 @@ using namespace std;
 
 int main()
 {
- helloWorld(); 
-}
-
-void helloWorld()
-{
   double meanWatthrs = 100.0;
-  double varianceWatthrs = 10.;
+  double varianceWatthrs = 50.;
+  double initial_cost = 10000;
 
-  for(int i=0;i<10;i++)
+  vector<double> test_vec = get_random_watts_vec(meanWatthrs, varianceWatthrs, 30000);
+  vector<double> money_saved_test = money_saved(test_vec);
+  vector<double> unpaid = amount_unpaid(initial_cost, money_saved_test);
+
+  //Prints out random Watt data
+  for(int i=0;i<test_vec.size();i++)
   {
-    cout << get_random_watts(meanWatthrs, varianceWatthrs) << endl;
+    cout << unpaid[i]<< endl;
   }
 }
 
@@ -40,28 +41,11 @@ double CalcBELRate(double powerOutput)
   return rate;
 }
 
-double get_random_watts(double meanWatthrs, double varianceWatthrs)
-{
-  double random_watts;
-  //Instantiate random class
-  std::random_device rd;
-
-  //Random seed generator
-  std::mt19937 gen(rd());
-
-  //Instantiate normal distribution
-  std::normal_distribution<double> draw(meanWatthrs, varianceWatthrs);
-  random_watts = draw(gen);
-
-
-  cout << random_watts << endl;
-  return random_watts;
-}
 
 vector<double> get_random_watts_vec(double meanWatthrs, double varianceWatthrs, size_t size)
 {
   //Declare vector to carry watt-hour data
-  vector<double> random_watts(size_t);
+  vector<double> random_watts;
 
   //Instantiate random class
   std::random_device rd;
@@ -74,8 +58,33 @@ vector<double> get_random_watts_vec(double meanWatthrs, double varianceWatthrs, 
   {
     //Instantiate normal distribution
     std::normal_distribution<double> draw(meanWatthrs, varianceWatthrs);
-    random_watts[i] = draw(gen);
+    random_watts.push_back(draw(gen));
   }
 
   return random_watts;
+}
+
+vector<double> money_saved(vector<double> watthrs)
+{
+  double BELRate = 0.;
+  //Since each data point is for 1 hour, BEL rate is money saved for that hour
+  vector<double> money_saved(watthrs.size());
+  for(int i=0;i<money_saved.size();i++)
+  {
+    BELRate = CalcBELRate(watthrs[i]);
+    money_saved[i] = BELRate;
+  }
+  return money_saved;
+}
+
+vector<double> amount_unpaid(double initial_cost, vector<double> money_saved)
+{
+  vector<double> amount_unpaid(money_saved.size());
+  double current_unpaid = initial_cost;
+  for(int i=0;i<amount_unpaid.size();i++)
+  {
+    amount_unpaid[i] = current_unpaid - money_saved[i];
+    current_unpaid = amount_unpaid[i];
+  }
+  return amount_unpaid;
 }
