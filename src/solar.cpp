@@ -15,7 +15,7 @@ void helloWorld()
   double meanWatthrs = 100.0;
   double varianceWatthrs = 10.;
 
-  for(int i=0;i>10;i++)
+  for(int i=0;i<10;i++)
   {
     cout << get_random_watts(meanWatthrs, varianceWatthrs) << endl;
   }
@@ -44,14 +44,38 @@ double get_random_watts(double meanWatthrs, double varianceWatthrs)
 {
   double random_watts;
   //Instantiate random class
-  random_device rd;
+  std::random_device rd;
 
   //Random seed generator
-  mt19937 gen(rd());
+  std::mt19937 gen(rd());
 
   //Instantiate normal distribution
-  normal_distribution<double> d(double meanWatthrs, double varianceWatthrs);
-  random_watts = d(gen);
+  std::normal_distribution<double> draw(meanWatthrs, varianceWatthrs);
+  random_watts = draw(gen);
+
+
+  cout << random_watts << endl;
+  return random_watts;
+}
+
+vector<double> get_random_watts_vec(double meanWatthrs, double varianceWatthrs, size_t size)
+{
+  //Declare vector to carry watt-hour data
+  vector<double> random_watts(size_t);
+
+  //Instantiate random class
+  std::random_device rd;
+
+  //Random seed generator
+  std::mt19937 gen(rd());
+
+  //Populate vector with watt-hour data
+  for(int i=0;i < size;i++)
+  {
+    //Instantiate normal distribution
+    std::normal_distribution<double> draw(meanWatthrs, varianceWatthrs);
+    random_watts[i] = draw(gen);
+  }
 
   return random_watts;
 }
