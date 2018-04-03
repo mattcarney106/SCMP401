@@ -198,4 +198,21 @@ New project pipeline:
 * What's next: fix redundant database access calls
 * make new function that connects
 
+## 4-02-18
+
+### Jensen's Update
+
+* Recap: no Tableau, only HighCharts
+* Data connection from C++ file to JS/HTML
+* Skeleton plot is live
+
+### Doni's Update
+
+* Moving to backup plan: two arduinos instead of arduino + RP
+* Arduino Mega and arduino unos/minis
+* Workflow workshopping
+
+### Sam's Update
+
+* General idea: decentralize data, starting with public domain books
 
