@@ -158,3 +158,66 @@ This takes all the object files found in the object directory and links them tog
 This week was rather slow as I had two large projects due during the week that sucked a lot of my time. Fortunately, this means that next week I'll have significantly more time to execute the ideas I came up with in preparation for my presentation. 
 
 What I did accomplish this week was perfecting my Makefile to be as general as possible to the solar project. This means that I can now add any .cpp or .h files to my source directories and they will be automatically compiled without needing to add a rule for them. Secondly, I've started coming up with some ideas for how to model the efficiency drops after speaking with a fellow physics major who presented on solar cells for her senior exercise. I'm starting to feel like a real developer! Next steps will include creating a prototype efficiency model coded into my software package. Finally, I'll be starting some of the long-term analyses in which I anticipate incorporating downsampling routines to account for the large amount of data.
+
+## Week of 3-26-18
+
+Unfortunately, I've missed a few journal entries and I'll be adding them in retroactively over the next few days. I know this is suboptimal to writing one consistently each week, but I figure it's better to have a record for documentation purposes, if nothing else. 
+
+This week I finished the toy model for the projection, which takes in a vector for the time series of watt values for a solar site and returns a vector of the amount of the initial cost left unpaid for each hour.
+
+```cpp
+ vector<double> amount_unpaid(double initial_cost, vector<double> money_saved)
+ 81 {
+ 82   vector<double> amount_unpaid(money_saved.size());
+ 83   double current_unpaid = initial_cost;
+ 84   for(int i=0;i<amount_unpaid.size();i++)
+ 85   {
+ 86     amount_unpaid[i] = current_unpaid - money_saved[i];
+ 87     current_unpaid = amount_unpaid[i];
+ 88   }
+ 89   return amount_unpaid;
+ 90 }
+```
+
+I was able to get the electricity rates from the BEL website, so these should be accurate.
+
+```cpp
+ /* Takes in powerOutput and returns
+ 26    The BEL rate in USD per kWhr
+ 27 */
+ 28 double CalcBELRate(double powerOutput)
+ 29 { 
+ 30   double rate;
+ 31   if(powerOutput >= 0.0 && powerOutput < 51.0){
+ 32     rate = 0.30;
+ 33   }else if(powerOutput >= 51.0 && powerOutput < 201.0){
+ 34     rate = 0.36;
+ 35   }else if(powerOutput >= 201.0){
+ 36     rate = 0.40;
+ 37   }else{ 
+ 38     cout << "INVALID POWER OUTPUT\n";
+ 39   }
+ 40   
+ 41   return rate;
+ 42 }
+```
+
+The next step will be to include an extrapolation routine to give a projected pay-off date.
+
+## Week of 4-2-18
+
+These next two weeks will be tough since comps and honors fall on the same two weeks. Since I won't have much time to sit down for a few hours at a time, I thought my time would be best spent researching the pros and cons of the possible extrapolation routines. 
+
+GSL
+
+ * Written in C, so familiar
+ * Have used interpolation methods in the past
+ * somewhat esoteric and antiquated
+ * quite a few dependencies
+
+Writing my own
+
+ * Can use experience with GSL
+ * Since the payoff curve is relatively linear, will probably only need linear extrapolation
+
+Additionally, I've made plans to meet with my project partners to discuss how our codes will be implemented together. I'm very excited to spend significantly more of my time on the project in the next few weeks.  
