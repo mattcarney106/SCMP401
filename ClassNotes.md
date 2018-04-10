@@ -216,3 +216,20 @@ New project pipeline:
 
 * General idea: decentralize data, starting with public domain books
 
+## 4-9-18
+
+### Tudor's Update
+
+* Had one-sample version, but unclear about two-sample bootstrapping 
+
+### Coire's Update
+
+* Instrument in chemistry department
+* analog to digital conversion
+* Haven't been able to receive information
+
+### Miku's Update
+
+* Function that checks for DST
+* Returns false if month is not March
+* How do we make this general?
