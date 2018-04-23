@@ -220,4 +220,113 @@ Writing my own
  * Can use experience with GSL
  * Since the payoff curve is relatively linear, will probably only need linear extrapolation
 
-Additionally, I've made plans to meet with my project partners to discuss how our codes will be implemented together. I'm very excited to spend significantly more of my time on the project in the next few weeks.  
+Additionally, I've made plans to meet with my project partners to discuss how our codes will be implemented together. I'm very excited to spend significantly more of my time on the project in the next few weeks. 
+
+##Week of 4-16-18
+
+I started off the week the APS April Meeting conference where I attended some talks on machine learning and other advanced computational techniques that I thought would be relevant to our capstone seminar. As for work, I've been attempting to connect my and Kara's code so that I can make SQL queries to get updated data.
+
+Unfortunately, I've run into some serious problems creating the framework to run the connection code. Kara's code was developed on the cslab server, which already has both the MySQL and MySQL c++ connection libraries. I do not have access to the server and until I do, I thought it best that I had a similar environment on which to develop. I was able to download the MySQL software using the GUI installer provided on their website. Kara's code is also dependent on the MySQL c++ connection code, which has been trickier to get working. 
+
+I use the Homebrew package manager for most of my installs so I wanted to keep everything consistent. I got the following error when trying to install mysql-connector-c++:
+
+```console
+Matthews-MacBook-Pro-4:~ matthewcarney$ brew install mysql-connector-c++
+Warning: You are using OS X 10.13.
+We do not provide support for this pre-release version.
+You may encounter build failures or other breakages.
+Please create pull-requests instead of filing issues.
+==> Installing dependencies for mysql-connector-c++: cmake, mysql, boost
+==> Installing mysql-connector-c++ dependency: cmake
+==> Downloading https://cmake.org/files/v3.6/cmake-3.6.0.tar.gz
+Already downloaded: /Users/matthewcarney/Library/Caches/Homebrew/cmake-3.6.0.tar.gz
+==> Downloading https://gitlab.kitware.com/cmake/cmake/merge_requests/34.patch
+Already downloaded: /Users/matthewcarney/Library/Caches/Homebrew/cmake--patch-6d47140ebb65c045d9eee2c363aa22e53973a54b9bcdc11ef7b622c97419999f.patch
+Error: SHA256 mismatch
+Expected: 6d47140ebb65c045d9eee2c363aa22e53973a54b9bcdc11ef7b622c97419999f
+Actual: 3228bf0cd769012340a730fc050339bd57639678734f99f0768a504f8368e777
+Archive: /Users/matthewcarney/Library/Caches/Homebrew/cmake--patch-6d47140ebb65c045d9eee2c363aa22e53973a54b9bcdc11ef7b622c97419999f.patch
+To retry an incomplete download, remove the file above.
+``` 
+
+This is apparently a problem with an outdated homebrew, so I tried a brew update, which resulted in a permissions error for the directory usr/local. Unfortunately, even a sudo chown command does not remedy the issue with the current version of macOS. This  can be solved by uninstalling and reinstalling homebrew through cURL:
+
+```console
+matthewcarney$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+```
+
+But alas, we run into another error claiming that HTTPS protocol is not supported by libcurl or at least not enabled:
+
+```console
+curl: (1) Protocol "https" not supported or disabled in libcurl
+```
+
+This has been a huge time suck. I've tried uninstalling curl and reinstalling,
+
+```console
+brew install curl --with-openssl --with-nghttp2
+```
+specifying to homebrew to configure the installation with both openssl and http, but I end up with the same error as above. I tried downloading the source code for the most recent version of curl (7.59.0), and explicitely including the dependency in the configure command, and then installing.
+
+```console
+matthewcarney$ ./configure --prefix=/usr/local/curl --with-darwinssl --with-ssl=/usr/local/opt/openssl --disable-werror --disable-warnings
+matthewcarney$ make -j
+matthewcarney$ sudo make -j install
+```
+
+I did a which curl to determine which version of curl was being used and it turned out that I was using the system installed curl. After changing the ruby command to the correct version (usr/local/curl/bin/curl), I was successfully able to uninstall Homebrew! Ironically, this uninstalled the version of curl that I installed so I had to reinstall that and then successfully installed the newest version of homebrew.
+
+I understand that this is quite the rabbit hole I've gone down but I've learned quite a lot about package management and installation which I think will make creating a cohesive, concise solar package much easier.
+
+Incredibly, after all this, the brew install mysql-connector-c++ installed successfully. I had to install one more package, but now I'm relatively confident that all dependencies are accounted for. But, as all coding goes, now I have another error which I believe is a problem with my makefile.
+
+Turns out it was just a problem with trying to compile two programs into one executable. This was fixed by separating the two.
+
+```console
+USER= carneym
+
+#Defining include directory, compiler, and flags for compiler
+IDIR=../include
+CC=g++
+CFLAGS=-I$(IDIR) -std=c++11  -Wno-deprecated-declarations
+
+#Defining libary directories
+LIBDIR=/usr/local/lib
+
+LIBS= -lmysqlcppconn
+
+#Defining object directory
+ODIR=obj
+
+#Compiling Kara's code
+#Determines all header files
+_DEPS=site.h sites.h
+DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
+
+#Determines list of obj files that will be created
+_OBJ=TestDBquery.o site.o sites.o
+OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+
+all: TestDBquery solar
+
+#Compiles all intermediate object files
+$(ODIR)/%.o: %.cpp $(DEPS)
+        $(CC) -c -o $@ $< $(CFLAGS) 
+
+#Makes final executible from all intermediate object files
+TestDBquery: $(OBJ)
+        $(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+#Compiling my code
+_DEPS=solar.h site.h sites.h
+DEPS=$(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ=solar.o site.o sites.o
+OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+        $(CC) -c -o $@ $< $(CFLAGS) 
+
+solar: $(OBJ)
+        $(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+```

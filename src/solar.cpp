@@ -2,6 +2,8 @@
 #include <vector>
 #include <random>
 #include "solar.h"
+#include "site.h"
+#include "sites.h"
 
 using namespace std;
 
@@ -11,7 +13,14 @@ int main()
   double varianceWatthrs = 50.;
   double initial_cost = 10000;
 
-  vector<double> test_vec = get_random_watts_vec(meanWatthrs, varianceWatthrs, 30000);
+  //If you want to generate random watt data
+  //vector<double> test_vec = get_random_watts_vec(meanWatthrs, varianceWatthrs, 30000);
+
+  //Get 
+  int site_ID = 1;
+  vector<double> test_vec = testsites.qByID(site_ID,"qWattsMin1","2018-4-9 7:00:00","2018-4-9 20:00:00");
+
+  //Calculate money saved and amount left unpaid
   vector<double> money_saved_test = money_saved(test_vec);
   vector<double> unpaid = amount_unpaid(initial_cost, money_saved_test);
 
