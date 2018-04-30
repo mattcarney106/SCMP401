@@ -233,3 +233,18 @@ New project pipeline:
 * Function that checks for DST
 * Returns false if month is not March
 * How do we make this general?
+
+## 4-16-18
+
+APS Meeting
+
+## 4-23-18
+
+### Coire's Update
+
+* Raspberry Pi working!
+* Can't send emails - auth problem
+
+### Bennet's Update
+
+* 

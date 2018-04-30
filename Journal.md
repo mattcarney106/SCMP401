@@ -330,3 +330,8 @@ $(ODIR)/%.o: %.cpp $(DEPS)
 solar: $(OBJ)
         $(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 ```
+
+
+##Week of 4-23-18
+
+This week was another tough one for the project. I had both my honors written exam and oral exam which consumed quite a lot of my time and detracted from my sci comp time. Thankfully, I'm finalizing the connection to Kara's code and will hopefully have met some of my goals by the final presentation on Monday. 
